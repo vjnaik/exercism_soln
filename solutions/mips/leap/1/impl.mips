@@ -1,0 +1,18 @@
+.globl is_leap_year
+
+is_leap_year:
+    li $t0, 400                # 400 in $t0
+    li $t1, 100                # 100 in $t1
+    li $v0, 0                  # False in $v0
+    andi $t2, $a0, 3           # Check % 4 (& 11) == 0
+    bne $t2, $v0, not_leap
+    div $a0, $t1
+    mfhi $t2                   # Check % 100 != 0
+    bne $t2, $v0, leap
+    div $a0, $t0
+    mfhi $t2                   # Check % 400 == 0
+    bne $t2, $v0, not_leap
+leap:
+    li $v0, 1                  # Fall through True
+not_leap:
+    jr $ra
