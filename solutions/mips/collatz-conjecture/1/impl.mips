@@ -1,0 +1,24 @@
+.globl  steps
+
+steps:
+        li $v0, -1              # Store Error Value
+        li $t0, 2               # Store 2 for division
+        li $t1, 0               # Store 0 for comparison
+        li $t2, 3               # Store 3 for multiplication
+        li $a1, 1               # Store 1 for checks
+        ble $a0, $t1, end       # Error Case (<= 0)
+loop:
+        add $v0, $v0, $a1       # Increment Counter
+        beq $a0, $a1, end       # Final Condition
+        div $a0, $t0            
+        mfhi $t3                # Check Remainder
+        beq $t3, $a1, odd       # Odd Case Branch
+        mflo $a0                # Even Case get Quotient
+        j loop                  # Loop to Start
+odd:
+        mult $a0, $t2           # Odd Case
+        mflo $t3                # 3 * value
+        add $a0, $t3, $a1       # Add 1
+        j loop                  # Loop to Start
+end:
+        jr      $ra
